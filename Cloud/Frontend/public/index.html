@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>坑道态势感知系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>坑道态势感知系统</h1>
+    </header>
+    <main>
+        <section id="status-overview">
+            <h2>状态总览</h2>
+            <div id="system-status">系统状态: <span class="value">加载中...</span></div>
+            <div id="device-status-summary">设备在线数: <span class="value">0</span></div>
+        </section>
+
+        <section id="latest-alarms">
+            <h2><span class="icon">⚠️</span> 最新警报 <span id="alarm-refresh-status" class="refresh-status"></span></h2>
+            <ul id="alarm-list">
+                <!-- 警报项将由JS动态添加 -->
+                <li>暂无警报</li>
+            </ul>
+        </section>
+
+        <section id="esp32-live-data">
+            <h2><span class="icon">📡</span> ESP32 实时数据</h2>
+            <div class="card-controls">
+                <label for="device-select-live">选择设备:</label>
+                <select id="device-select-live">
+                    <!-- 设备列表将由JS动态填充 -->
+                </select>
+            </div>
+            <div id="live-data-card" class="data-card">
+                <p>设备ID: <span id="live-device-id" class="value">N/A</span></p>
+                <p>温度: <span id="live-temp" class="value">--</span> °C</p>
+                <p>湿度: <span id="live-humidity" class="value">--</span> %</p>
+                <p>CO浓度: <span id="live-co" class="value">--</span> PPM</p>
+                <p>粉尘浓度: <span id="live-dust" class="value">--</span> µg/m³</p>
+                <p>告警状态: <span id="live-alarm" class="value">--</span></p>
+                <p>更新时间: <span id="live-timestamp" class="value">--</span></p>
+            </div>
+        </section>
+
+        <section id="esp32-control">
+            <h2><span class="icon">🔄</span> ESP32控制</h2>
+            <div class="controls-container">
+                <div class="control-group">
+                    <label for="device-select-control">选择设备:</label>
+                    <select id="device-select-control">
+                        <!-- 设备列表将由JS动态填充 -->
+                    </select>
+                </div>
+                <div class="buttons-group">
+                    <button id="restart-device-btn" class="control-btn">重启设备</button>
+                    <a href="http://113.44.13.140:8181/stream" target="_blank" class="control-btn" id="view-camera-btn">查看摄像头</a>
+                    <a href="http://113.44.13.140:2288" target="_blank" class="control-btn" id="setup-camera-btn">设置摄像头</a>
+                </div>
+                <div id="control-status" class="status-message"></div>
+            </div>
+        </section>
+
+        <section id="historical-data">
+            <h2><span class="icon">📊</span> 历史数据图表</h2>
+            <div class="chart-controls">
+                <label for="device-select-chart">设备ID:</label>
+                <select id="device-select-chart">
+                    <!-- 设备列表 -->
+                </select>
+                <label for="metric-select-chart">指标:</label>
+                <select id="metric-select-chart">
+                    <option value="temperature">温度</option>
+                    <option value="humidity">湿度</option>
+                    <option value="co_ppm">CO浓度</option>
+                    <option value="dust_density">粉尘浓度</option>
+                </select>
+                <label for="time-range-chart">时间范围:</label>
+                <select id="time-range-chart">
+                    <option value="1m">过去1分钟</option>
+                    <option value="5m">过去5分钟</option>
+                    <option value="10m">过去10分钟</option>
+                    <option value="30m">过去30分钟</option>
+                    <option value="1h">过去1小时</option>
+                    <option value="3h">过去3小时</option>
+                    <option value="6h">过去6小时</option>
+                    <option value="12h">过去12小时</option>
+                    <option value="1d">过去1天</option>
+                    <option value="2d">过去2天</option>
+                    <option value="3d">过去3天</option>
+                </select>
+                <button id="refresh-chart-btn">刷新图表</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="data-chart"></canvas>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 HFUTSCI</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

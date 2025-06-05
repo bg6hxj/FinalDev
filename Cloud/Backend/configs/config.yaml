@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  host: "0.0.0.0"
+
+database:
+  host: "db"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  dbname: "arm_detector_db"
+  sslmode: "disable"
+
+mqtt:
+  broker_url: "tcp://mqtt_broker:1883"
+  client_id: "arm-detector-backend"
+  topic_sensors: "armdetector/sensor/data"
+  topic_command_publish_template: "armdetector/device/%s/command"
+  topic_response_subscribe_pattern: "armdetector/device/+/response"
+  username: ""
+  password: ""
+
+logging:
+  level: "info" 
