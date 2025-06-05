@@ -1,0 +1,247 @@
+body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
+header { background-color: #333; color: white; padding: 1em; text-align: center; }
+main { padding: 1em; }
+section { background-color: white; margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+h2 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 0.5em; }
+.data-card, .chart-controls, #status-overview div { margin-bottom: 0.5em; }
+.data-card p, #status-overview div { margin: 0.3em 0; }
+.value { font-weight: bold; color: #007bff; }
+#alarm-list { list-style: none; padding: 0; }
+#alarm-list li { padding: 0.8em; border-radius: 4px; margin-bottom: 0.8em; border-left: 4px solid #ccc; background-color: #f9f9f9; }
+#alarm-list li:last-child { margin-bottom: 0; }
+.icon { margin-right: 0.5em; }
+label { margin-right: 0.5em; }
+select, button { padding: 0.5em; margin-right: 1em; border-radius: 4px; border: 1px solid #ccc; }
+button { background-color: #007bff; color: white; cursor: pointer; }
+button:hover { background-color: #0056b3; }
+canvas { max-width: 100%; }
+footer { text-align: center; padding: 1em; background-color: #333; color: white; margin-top: 1em;}
+
+#data-chart {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* 默认的纵横比 */
+    max-height: 500px; /* 设置最大高度 */
+}
+
+#historical-data {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    width: 100%;
+    position: relative;
+    min-height: 300px;
+}
+
+/* 警报项样式 */
+.alarm-item {
+    animation: fadeIn 0.3s ease-in-out;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.alarm-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.alarm-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.alarm-icon {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.alarm-status {
+    font-weight: bold;
+    flex: 1;
+}
+
+.alarm-time {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.alarm-device {
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.alarm-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.detail-item {
+    background-color: rgba(0,0,0,0.03);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.detail-label {
+    color: #666;
+    margin-right: 3px;
+}
+
+/* 警报类型样式 */
+.alarm-dust {
+    border-left-color: #9c27b0;
+    background-color: rgba(156, 39, 176, 0.05);
+}
+
+.alarm-temp {
+    border-left-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.05);
+}
+
+.alarm-humid {
+    border-left-color: #2196f3;
+    background-color: rgba(33, 150, 243, 0.05);
+}
+
+.alarm-co {
+    border-left-color: #795548;
+    background-color: rgba(121, 85, 72, 0.05);
+}
+
+.alarm-high {
+    border-left-color: #ff9800;
+    background-color: rgba(255, 152, 0, 0.05);
+}
+
+.alarm-critical {
+    border-left-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.alarm-generic {
+    border-left-color: #607d8b;
+    background-color: rgba(96, 125, 139, 0.05);
+}
+
+.alarm-unknown, .error-alarm {
+    border-left-color: #9e9e9e;
+    background-color: rgba(158, 158, 158, 0.05);
+}
+
+.no-alarm {
+    color: #4caf50;
+    text-align: center;
+    padding: 15px;
+    font-style: italic;
+}
+
+/* 刷新状态显示 */
+.refresh-status {
+    font-size: 0.7em;
+    color: #888;
+    font-weight: normal;
+    margin-left: 10px;
+    font-style: italic;
+    display: none;
+}
+
+/* 添加一个淡入淡出动画，用于警报项更新 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ESP32 控制模块样式 */
+#esp32-control {
+    margin-bottom: 1.5em;
+}
+
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.buttons-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 120px;
+}
+
+#restart-device-btn {
+    background-color: #ff5722;
+    border: none;
+    color: white;
+}
+
+#restart-device-btn:hover {
+    background-color: #e64a19;
+}
+
+#view-camera-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+
+#view-camera-btn:hover {
+    background-color: #388e3c;
+}
+
+#setup-camera-btn {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+}
+
+#setup-camera-btn:hover {
+    background-color: #1976d2;
+}
+
+.status-message {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    display: none;
+}
+
+.status-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #4caf50;
+    display: block;
+}
+
+.status-error {
+    background-color: #fbe9e7;
+    color: #c62828;
+    border-left: 4px solid #f44336;
+    display: block;
+}
+
+/* 隐藏更新时间字段
+#live-data-card p:last-child {
+    display: none;
+}  */

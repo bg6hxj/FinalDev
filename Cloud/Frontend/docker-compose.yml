@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # 前端服务
+  frontend:
+    build:
+      context: . # Adjusted build context to current directory
+      dockerfile: Dockerfile
+    container_name: arm_detector_frontend
+    restart: always
+    ports:
+      - "80:80" # Expose Nginx on port 80 of the host
+    networks:
+      - backend_arm-detector-network
+
+networks:
+  backend_arm-detector-network:
+    external: true # Assumes this network is created and managed externally
+
+volumes:
+  postgres_data: 
